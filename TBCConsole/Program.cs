@@ -1,22 +1,20 @@
 ﻿using BL;
 using Model;
 
-//class Program
-//{
-//      static void Main()
-//      {
+// class Program
+// {
+//     static void Main()
+//     {
 //         CustomerBL cusBL = new CustomerBL();
 //         Customer? cus = new Customer();
-//         cus = cusBL.GetById(2);
+//         cus = cusBL.GetById(1);
 //         if (cus != null)
 //             Console.WriteLine(cus.CustomerName);
-// TabaccoBL idal = new TabaccoBL();
-// Tabacco? tab = new Tabacco();
-// tab = idal.GetTabaccoById(1);
-// if (tab != null)
-// Console.WriteLine(tab.TabaccoName);
-//      }
-//  }
+//         TabaccoBL idal = new TabaccoBL();
+//         Tabacco tab = idal.GetTabaccoById(1);
+//         Console.WriteLine(tab.TabaccoName);
+//     }
+// }
 
 namespace ConsolePL
 {
@@ -24,8 +22,8 @@ namespace ConsolePL
     {
         static void Main(string[] args)
         {
-            
-            
+
+
             short mainChoose = 0, imChoose;
             string[] mainMenu = { "Tabacco Management", "Add Customer", "Create Order", "Exit" };
             string[] imMenu = { "Get By Tabacco Id", "Get All Tabaccos", "Search By Tabacco Name", "Exit" };
@@ -61,19 +59,20 @@ namespace ConsolePL
                 {
                     orderStaff = staffBL.Login(UserName);
                 }
-            
+                    Console.Clear();
                 if(orderStaff != null)
                 {
-                    
+
                     while (true)
                     {
                     mainChoose = Menu("                         Order Management", mainMenu);
+                    
                     switch (mainChoose)
                     {
                         case 1:
                             do
                             {
-                            
+
                                 imChoose = Menu("                       Tabacco Management", imMenu);
                                 switch (imChoose)
                                 {
@@ -85,7 +84,7 @@ namespace ConsolePL
                                             Tabacco i = ibl.GetTabaccoById(tabaccoId);
                                             if (i != null)
                                             {
-                                                
+
                                                 Console.WriteLine("Tabacco Name: " + i.TabaccoName);
                                                 Console.WriteLine("Tabacco Price: " + i.TabaccoPrice);
                                                 Console.WriteLine("Amount: " + i.Amount);
@@ -112,7 +111,7 @@ namespace ConsolePL
                                             lst = ibl.GetByName("I");
                                             Console.WriteLine("\nTabacco Count By Name: " + lst.Count);
                                             break;
-                                        
+
                                 }
                             } while (imChoose != imMenu.Length);
                             break;
@@ -122,24 +121,24 @@ namespace ConsolePL
                                 break;
                             case 3:
                                 Order order = new Order();
-                            
+
                                 // order.OrderCustomer = new Customer { CustmerId = 1, CustomerName = "Nguyen Xuan Sinh", CustomerAddress = "Hanoi" };
-                                
+
                                 order.TabaccosList.Add(ibl.GetTabaccoById(2));
                                 order.TabaccosList[0].Amount = 1;
                                 order.TabaccosList.Add(ibl.GetTabaccoById(3));
                                 order.TabaccosList[1].Amount = 2;
                                 Console.WriteLine("Create Order: " + (obl.CreateOrder(order) ? "completed!" : "not complete!"));
                                 break;
-                            
+
                         }
-                        
+
                     }}
                     else
                     {
                         Console.WriteLine("\nInvalid Username or Password !");
                     }
-                    
+
                 }
             }while (mainChoose != mainMenu.Length);
         }
@@ -154,7 +153,7 @@ namespace ConsolePL
                     ██    ███████ ██████  ███████ ██      ██      ██    ██ 
                     ██    ██   ██ ██   ██ ██   ██ ██      ██      ██    ██ 
                     ██    ██   ██ ██████  ██   ██  ██████  ██████  ██████  
-                                        
+
                                        ";
             short choose = 0;
             Console.WriteLine($"\n"+logo);
@@ -170,6 +169,7 @@ namespace ConsolePL
             do
             {
                 Console.Write("Your choice: ");
+                
                 try
                 {
                     choose = Int16.Parse(Console.ReadLine()??"");
@@ -182,10 +182,6 @@ namespace ConsolePL
             } while (choose <= 0 || choose > menuTabaccos.Length);
             return choose;
         }
-        
-        // public void Login()
-        // {
-            
-        //}
+
     }
 }

@@ -1,5 +1,7 @@
 using Model;
 using DAL;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace BL
 {
@@ -8,6 +10,7 @@ namespace BL
         StaffDAL staffDAL = new StaffDAL();
         public Staff? Login(string UserName)
         {
+
             Console.Write("Password: ");
             string PassWord = "";
             ConsoleKey key;
@@ -27,10 +30,10 @@ namespace BL
                     PassWord += keyInfo.KeyChar;
                 }
             } while (key != ConsoleKey.Enter);
-            
+
             Staff staff = new Staff();
             staff = staffDAL.GetStaffAccount(UserName);
-            if (staff.Password == PassWord)
+            if (staff.Password == staffDAL.CreateMD5(PassWord))
             {
                 return staff;
             }

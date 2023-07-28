@@ -1,0 +1,12 @@
+D:\projec\Projec_1\TBCLib\bin\Release\net7.0\TBCLib.deps.json
+D:\projec\Projec_1\TBCLib\bin\Release\net7.0\TBCLib.dll
+D:\projec\Projec_1\TBCLib\bin\Release\net7.0\TBCLib.pdb
+D:\projec\Projec_1\TBCLib\obj\Release\net7.0\TBCLib.csproj.AssemblyReference.cache
+D:\projec\Projec_1\TBCLib\obj\Release\net7.0\TBCLib.GeneratedMSBuildEditorConfig.editorconfig
+D:\projec\Projec_1\TBCLib\obj\Release\net7.0\TBCLib.AssemblyInfoInputs.cache
+D:\projec\Projec_1\TBCLib\obj\Release\net7.0\TBCLib.AssemblyInfo.cs
+D:\projec\Projec_1\TBCLib\obj\Release\net7.0\TBCLib.csproj.CoreCompileInputs.cache
+D:\projec\Projec_1\TBCLib\obj\Release\net7.0\TBCLib.dll
+D:\projec\Projec_1\TBCLib\obj\Release\net7.0\refint\TBCLib.dll
+D:\projec\Projec_1\TBCLib\obj\Release\net7.0\TBCLib.pdb
+D:\projec\Projec_1\TBCLib\obj\Release\net7.0\ref\TBCLib.dll

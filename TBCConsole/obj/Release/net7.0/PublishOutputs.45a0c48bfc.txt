@@ -1,0 +1,9 @@
+C:\Users\84353\Desktop\ProjectVer1.0\TBCConsole.exe
+C:\Users\84353\Desktop\ProjectVer1.0\TBCConsole.dll
+C:\Users\84353\Desktop\ProjectVer1.0\TBCConsole.deps.json
+C:\Users\84353\Desktop\ProjectVer1.0\TBCConsole.runtimeconfig.json
+C:\Users\84353\Desktop\ProjectVer1.0\TBCConsole.pdb
+C:\Users\84353\Desktop\ProjectVer1.0\MySqlConnector.dll
+C:\Users\84353\Desktop\ProjectVer1.0\Spectre.Console.dll
+C:\Users\84353\Desktop\ProjectVer1.0\TBCLib.dll
+C:\Users\84353\Desktop\ProjectVer1.0\TBCLib.pdb

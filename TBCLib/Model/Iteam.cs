@@ -12,7 +12,7 @@ namespace Model
     public int? TabaccoId { set; get; }
     public string? TabaccoName { set; get; }
     public decimal TabaccoPrice { set; get; }
-    public int? Amount { set; get; }
+    public decimal? Amount { set; get; }
     public int? Pack { set; get; }
     public DateTime TabaccoDate { set;get;}
   }

@@ -1,6 +1,6 @@
 using MySqlConnector;
 using Model;
-
+using System.Data;
 namespace DAL
 {
     public class CustomerDAL
@@ -18,6 +18,10 @@ namespace DAL
             Customer? c = null;
             try
             {
+                if (connection.State != ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
                 query = @"select customer_id, customer_name, customer_phone,
                         ifnull(customer_address, '') as customer_address
                         from Customers where customer_id=" + customerId + ";";
@@ -29,6 +33,12 @@ namespace DAL
                 reader.Close();
             }
             catch { }
+
+            if (connection.State != ConnectionState.Open)
+            {
+                connection.Close();
+            }
+
             return c;
         }
         internal Customer GetCustomer(MySqlDataReader reader)

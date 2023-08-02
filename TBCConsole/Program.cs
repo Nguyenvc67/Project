@@ -61,7 +61,7 @@ namespace ConsolePL
                 {
                     orderStaff = staffBL.Login(UserName);
                 }
-            
+                    Console.Clear();
                 if(orderStaff != null)
                 {
                     
@@ -89,7 +89,7 @@ namespace ConsolePL
                                                 Console.WriteLine("Tabacco Name: " + i.TabaccoName);
                                                 Console.WriteLine("Tabacco Price: " + i.TabaccoPrice);
                                                 Console.WriteLine("Amount: " + i.Amount);
-                                                Console.WriteLine("Tabacco datetime" + i.TabaccoDate);
+                                                Console.WriteLine("Tabacco datetime: " + i.TabaccoDate);
                                                 Console.WriteLine("Tabacco pack: "+ i.Pack);
                                             }
                                             else
@@ -104,32 +104,34 @@ namespace ConsolePL
                                         Console.WriteLine("\n    Press Enter key to back menu...");
                                         Console.ReadLine();
                                         break;
-                                        case 2:
-                                            lst = ibl.GetAll();
-                                            Console.WriteLine("\nTabacco Count: " + lst.Count);
-                                            break;
-                                        case 3:
-                                            lst = ibl.GetByName("I");
-                                            Console.WriteLine("\nTabacco Count By Name: " + lst.Count);
-                                            break;
+                                    case 2:
+                                        
+                                        lst = ibl.GetAll();
+                                        Console.WriteLine("\nTabacco Count: " + lst.Count);
+                                        break;
+                                    case 3:
+                                        lst = ibl.GetByName("I");
+                                        Console.WriteLine("\nTabacco Count By Name: " + lst.Count);
+                                        break;
                                         
                                 }
                             } while (imChoose != imMenu.Length);
                             break;
                             case 2:
-                        // Customer c = new Customer {CustomerName="Nguyen Thi N", CustomerAddress="Ha Tay"};
-                        // Console.WriteLine("Customer ID: " + cbl.AddCustomer(c));
-                                break;
-                            case 3:
+                            // order.OrderCustomer = new Customer { CustmerId = 1, CustomerName = "Nguyen Xuan Sinh", CustomerAddress = "Hanoi" };
                                 Order order = new Order();
-                            
-                                // order.OrderCustomer = new Customer { CustmerId = 1, CustomerName = "Nguyen Xuan Sinh", CustomerAddress = "Hanoi" };
-                                
                                 order.TabaccosList.Add(ibl.GetTabaccoById(2));
                                 order.TabaccosList[0].Amount = 1;
                                 order.TabaccosList.Add(ibl.GetTabaccoById(3));
                                 order.TabaccosList[1].Amount = 2;
                                 Console.WriteLine("Create Order: " + (obl.CreateOrder(order) ? "completed!" : "not complete!"));
+                        // Customer c = new Customer {CustomerName="Nguyen Thi N", CustomerAddress="Ha Tay"};
+                        // Console.WriteLine("Customer ID: " + cbl.AddCustomer(c));
+                                break;
+                            case 3:
+                                
+                            
+                                
                                 break;
                             
                         }

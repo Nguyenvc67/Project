@@ -34,7 +34,7 @@ namespace ConsolePL
             OrderBL obl = new OrderBL();
             StaffBL sta = new StaffBL();
             string[] Login = {"login"};
-            List<Tabacco> lst;
+            List<Tabacco> lst = new List<Tabacco>();
             do
             {
                 StaffBL staffBL = new StaffBL();
@@ -107,11 +107,12 @@ namespace ConsolePL
                                     case 2:
                                         
                                         lst = ibl.GetAll();
-                                        Console.WriteLine("\nTabacco Count: " + lst.Count);
+                                        Console.WriteLine("\nTabacco Count: " + lst.Count());
+                                        Console.ReadKey();
                                         break;
                                     case 3:
                                         lst = ibl.GetByName("I");
-                                        Console.WriteLine("\nTabacco Count By Name: " + lst.Count);
+                                        Console.WriteLine("\nTabacco Count By Name: " + lst.Count());
                                         break;
                                         
                                 }
@@ -119,12 +120,12 @@ namespace ConsolePL
                             break;
                             case 2:
                             // order.OrderCustomer = new Customer { CustmerId = 1, CustomerName = "Nguyen Xuan Sinh", CustomerAddress = "Hanoi" };
-                                Order order = new Order();
-                                order.TabaccosList.Add(ibl.GetTabaccoById(2));
-                                order.TabaccosList[0].Amount = 1;
-                                order.TabaccosList.Add(ibl.GetTabaccoById(3));
-                                order.TabaccosList[1].Amount = 2;
-                                Console.WriteLine("Create Order: " + (obl.CreateOrder(order) ? "completed!" : "not complete!"));
+                        //         Order order = new Order();
+                        //         order.TabaccosList.Add(ibl.GetTabaccoById(2));
+                        //         order.TabaccosList[0].Amount = 1;
+                        //         order.TabaccosList.Add(ibl.GetTabaccoById(3));
+                        //         order.TabaccosList[1].Amount = 2;
+                        //         Console.WriteLine("Create Order: " + (obl.CreateOrder(order) ? "completed!" : "not complete!"));
                         // Customer c = new Customer {CustomerName="Nguyen Thi N", CustomerAddress="Ha Tay"};
                         // Console.WriteLine("Customer ID: " + cbl.AddCustomer(c));
                                 break;
@@ -148,7 +149,7 @@ namespace ConsolePL
 
         private static short Menu(string title, string[] menuTabaccos)
         {
-            string logo = @"============================================================================================
+            string logo = @"====================================================================================================
 
 
 ████████  █████  ██████   █████   ██████  ██████  ██████      ███████ ████████  ██████  ██████  ███████ 
@@ -160,7 +161,7 @@ namespace ConsolePL
                                        ";
             short choose = 0;
             Console.WriteLine($"\n"+logo);
-            string line = "============================================================================================";
+            string line = "====================================================================================================";
             Console.WriteLine(line);
             Console.WriteLine(" " + title);
             Console.WriteLine(line);

@@ -1,22 +1,8 @@
 ﻿using BL;
 using Model;
-
-//class Program
-//{
-//      static void Main()
-//      {
-//         CustomerBL cusBL = new CustomerBL();
-//         Customer? cus = new Customer();
-//         cus = cusBL.GetById(2);
-//         if (cus != null)
-//             Console.WriteLine(cus.CustomerName);
-// TabaccoBL idal = new TabaccoBL();
-// Tabacco? tab = new Tabacco();
-// tab = idal.GetTabaccoById(1);
-// if (tab != null)
-// Console.WriteLine(tab.TabaccoName);
-//      }
-//  }
+using OrderManagementApp.BLL;
+using OrderManagementApp.DAL;
+using Spectre.Console;
 
 namespace ConsolePL
 {
@@ -24,16 +10,14 @@ namespace ConsolePL
     {
         static void Main(string[] args)
         {
-            
-            
+
+
             short mainChoose = 0, imChoose;
             string[] mainMenu = { "Search Tabacco", "Create Order", "Exit" };
             string[] imMenu = { "Get By Tabacco Id", "Get All Tabaccos", "Search By Tabacco Name", "Exit" };
             TabaccoBL ibl = new TabaccoBL();
-            CustomerBL cbl = new CustomerBL();
-            OrderBL obl = new OrderBL();
             StaffBL sta = new StaffBL();
-            string[] Login = {"login"};
+            string[] Login = { "login" };
             List<Tabacco> lst = new List<Tabacco>();
             do
             {
@@ -42,126 +26,218 @@ namespace ConsolePL
                 bool active = true;
                 while (active = true)
                 {
-                string UserName;
-                Console.WriteLine(@"
-████████  █████  ██████   █████   ██████  ██████  ██████      ███████ ████████  ██████  ██████  ███████ 
-   ██    ██   ██ ██   ██ ██   ██ ██      ██      ██    ██     ██         ██    ██    ██ ██   ██ ██      
-   ██    ███████ ██████  ███████ ██      ██      ██    ██     ███████    ██    ██    ██ ██████  █████   
-   ██    ██   ██ ██   ██ ██   ██ ██      ██      ██    ██          ██    ██    ██    ██ ██   ██ ██      
-   ██    ██   ██ ██████  ██   ██  ██████  ██████  ██████      ███████    ██     ██████  ██   ██ ███████
+                    string UserName;
+                    Console.WriteLine(@"
+████████╗ ██████╗ ██████╗  █████╗  ██████╗ ██████╗  ██████╗ 
+╚══██╔══╝██╔═══██╗██╔══██╗██╔══██╗██╔════╝██╔═══██╗██╔═══██╗
+   ██║   ██║   ██║██████╔╝███████║██║     ██║   ██║██║   ██║
+   ██║   ██║   ██║██╔══██╗██╔══██║██║     ██║   ██║██║   ██║
+   ██║   ╚██████╔╝██████╔╝██║  ██║╚██████╗╚██████╔╝╚██████╔╝
+   ╚═╝    ╚═════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═════╝  ╚═════╝ 
+        ███████╗████████╗ ██████╗ ██████╗ ███████╗                  
+        ██╔════╝╚══██╔══╝██╔═══██╗██╔══██╗██╔════╝                  
+        ███████╗   ██║   ██║   ██║██████╔╝█████╗                    
+        ╚════██║   ██║   ██║   ██║██╔══██╗██╔══╝                    
+        ███████║   ██║   ╚██████╔╝██║  ██║███████╗                  
+        ╚══════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝
                     ");
-                Console.Write("User Name : ");
-                UserName = Console.ReadLine()??"";
-                if(UserName == "0")
-                {
-                    active = false;
-                    break;
-                }
-                else
-                {
-                    orderStaff = staffBL.Login(UserName);
-                }
+                    Console.Write("User Name : ");
+                    UserName = Console.ReadLine() ?? "";
+                    if (UserName == "0")
+                    {
+                        active = false;
+                        break;
+                    }
+                    else
+                    {
+                        orderStaff = staffBL.Login(UserName);
+                    }
                     Console.Clear();
-                if(orderStaff != null)
-                {
-                    
-                    while (true)
+                    if (orderStaff != null)
                     {
-                    mainChoose = Menu("                         Order Management", mainMenu);
-                    switch (mainChoose)
-                    {
-                        case 1:
-                            do
+
+                        while (true)
+                        {
+                            mainChoose = Menu("                         Order Management", mainMenu);
+                            switch (mainChoose)
                             {
-                            
-                                imChoose = Menu("                       Tabacco Management", imMenu);
-                                switch (imChoose)
-                                {
-                                    case 1:
-                                        Console.Write("\nInput Tabacco Id: ");
-                                        int tabaccoId;
-                                        if (Int32.TryParse(Console.ReadLine(), out tabaccoId))
+                                case 1:
+                                    do
+                                    {
+
+                                        imChoose = Menu("                       Tabacco Management", imMenu);
+                                        switch (imChoose)
                                         {
-                                            Tabacco i = ibl.GetTabaccoById(tabaccoId);
-                                            if (i != null)
-                                            {
-                                                
-                                                Console.WriteLine("Tabacco Name: " + i.TabaccoName);
-                                                Console.WriteLine("Tabacco Price: " + i.TabaccoPrice);
-                                                Console.WriteLine("Amount: " + i.Amount);
-                                                Console.WriteLine("Tabacco datetime: " + i.TabaccoDate);
-                                                Console.WriteLine("Tabacco pack: "+ i.Pack);
-                                            }
-                                            else
-                                            {
-                                                Console.WriteLine("There is no Tabacco with id " + tabaccoId);
-                                            }
+                                            case 1:
+                                                Console.Write("\nInput Tabacco Id: ");
+                                                int tabaccoId;
+                                                if (Int32.TryParse(Console.ReadLine(), out tabaccoId))
+                                                {
+                                                    Tabacco i = ibl.GetTabaccoById(tabaccoId);
+                                                    if (i != null)
+                                                    {
+
+                                                        Console.WriteLine("Tabacco Name: " + i.TabaccoName);
+                                                        Console.Write("Tabacco Price: " + i.TabaccoPrice);
+                                                        Console.WriteLine(" VND");
+                                                        Console.WriteLine("Manufactory: " + i.Manufactory);
+                                                        Console.WriteLine("Amount: " + i.Amount);
+                                                        Console.WriteLine("Tabacco Pack: " + i.TabaccoPack);
+                                                        Console.WriteLine("Tabacco Date: " + i.TabaccoDate);
+                                                    }
+                                                    else
+                                                    {
+                                                        Console.WriteLine("There is no Tabacco with id " + tabaccoId);
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    Console.WriteLine("Your Choose is wrong!");
+                                                }
+                                                Console.WriteLine("\n    Press Enter key to back menu...");
+                                                Console.ReadLine();
+                                                break;
+                                            case 2:
+
+                                                lst = ibl.GetAll();
+                                                Console.WriteLine("\nTabacco Count: " + lst.Count());
+                                                Console.ReadKey();
+                                                break;
+                                            case 3:
+                                                lst = ibl.GetByName("I");
+                                                Console.WriteLine("\nTabacco Count By Name: " + lst.Count());
+                                                break;
+
                                         }
-                                        else
-                                        {
-                                            Console.WriteLine("Your Choose is wrong!");
-                                        }
-                                        Console.WriteLine("\n    Press Enter key to back menu...");
-                                        Console.ReadLine();
-                                        break;
-                                    case 2:
-                                        
-                                        lst = ibl.GetAll();
-                                        Console.WriteLine("\nTabacco Count: " + lst.Count());
-                                        Console.ReadKey();
-                                        break;
-                                    case 3:
-                                        lst = ibl.GetByName("I");
-                                        Console.WriteLine("\nTabacco Count By Name: " + lst.Count());
-                                        break;
-                                        
-                                }
-                            } while (imChoose != imMenu.Length);
-                            break;
-                            case 2:
-                            // order.OrderCustomer = new Customer { CustmerId = 1, CustomerName = "Nguyen Xuan Sinh", CustomerAddress = "Hanoi" };
-                        //         Order order = new Order();
-                        //         order.TabaccosList.Add(ibl.GetTabaccoById(2));
-                        //         order.TabaccosList[0].Amount = 1;
-                        //         order.TabaccosList.Add(ibl.GetTabaccoById(3));
-                        //         order.TabaccosList[1].Amount = 2;
-                        //         Console.WriteLine("Create Order: " + (obl.CreateOrder(order) ? "completed!" : "not complete!"));
-                        // Customer c = new Customer {CustomerName="Nguyen Thi N", CustomerAddress="Ha Tay"};
-                        // Console.WriteLine("Customer ID: " + cbl.AddCustomer(c));
-                                break;
-                            case 3:
-                                
-                            
-                                
-                                break;
-                            
+                                    } while (imChoose != imMenu.Length);
+                                    break;
+                                case 2:
+
+                                    string connectionString = "server=localhost;user id=root;password=nguyen6797;port=3306;database=OrderDB;IgnoreCommandTransaction=true;"; // Thay bằng chuỗi kết nối thực tế của bạn
+                                    DataAccess dataAccess = new DataAccess(connectionString);
+                                    OrderManager orderManager = new OrderManager(dataAccess);
+                                    Console.WriteLine("---- Create New Order ----");
+
+                                    List<Customer> customers = orderManager.GetAllCustomers();
+                                    Console.WriteLine("Customers:");
+                                    foreach (var customer in customers)
+                                    {
+                                        Console.WriteLine($"{customer.CustomerId}. {customer.CustomerName}");
+                                    }
+                                    Console.Write("Select Customer (ID): ");
+                                    int selectedCustomerId = int.Parse(Console.ReadLine());
+
+                                    List<Tabacco> tabaccos = orderManager.GetAllTabaccos();
+                                    Console.WriteLine("Tabaccos:");
+                                    foreach (var tabacco in tabaccos)
+                                    {
+                                        Console.WriteLine($"{tabacco.TabaccoId}. {tabacco.TabaccoName}");
+                                    }
+                                    Console.Write("Select Tabacco (ID): ");
+                                    int selectedTabaccoId = int.Parse(Console.ReadLine());
+
+                                    Console.Write("Quantity: ");
+                                    int quantity = int.Parse(Console.ReadLine());
+
+                                    Order newOrder = new Order
+                                    {
+                                        CustomerId = selectedCustomerId,
+                                        SellerId = 1,
+                                        OrderDate = DateTime.Now,
+                                        OrderStatus = "Pending"
+                                    };
+
+                                    OrderDetail newOrderDetail = new OrderDetail
+                                    {
+                                        TabaccoId = selectedTabaccoId,
+                                        Quantity = quantity
+                                    };
+
+                                    newOrder.OrderDetails = new List<OrderDetail> { newOrderDetail };
+
+                                    orderManager.AddOrder(newOrder);
+
+                                    Console.WriteLine("Order created successfully!");
+                                    Console.ReadKey();
+                                    Console.Clear();
+                                    var table = new Table();
+                                    table.AddColumn("Order Id ");
+                                    table.AddColumn("Customer ID ");
+                                    table.AddColumn("Seller Id ");
+                                    table.AddColumn("Date ");
+                                    table.AddColumn("Status ");
+                                    table.AddColumn("Tabacco ");
+                                    table.AddColumn("Quantity ");
+                                    foreach (var orderDetail in newOrder.OrderDetails)
+                                    {
+                                        table.AddRow(newOrder.OrderId.ToString(), newOrder.CustomerId.ToString(), newOrder.SellerId.ToString(), newOrder.OrderDate.ToString(), newOrder.OrderStatus, orderDetail.TabaccoId.ToString(), orderDetail.Quantity.ToString());
+                                    }
+
+                                    AnsiConsole.Render(table);
+
+                                    // var detailsTable = new Table();
+                                    // detailsTable.AddColumn("Tabacco: ");
+                                    // detailsTable.AddColumn("Quantity: ");
+
+                                    // foreach (var orderDetail in newOrder.OrderDetails)
+                                    // {
+                                    //     detailsTable.AddRow(orderDetail.TabaccoId.ToString(), orderDetail.Quantity.ToString());
+                                    // }
+
+                                    // AnsiConsole.Render(detailsTable);
+
+
+                                    // Console.WriteLine($"Order Id: {newOrder.OrderId}");
+                                    // Console.WriteLine($"Customer: {newOrder.CustomerId}");
+                                    // Console.WriteLine($"Seller: {newOrder.SellerId}");
+                                    // Console.WriteLine($"Date: {newOrder.OrderDate}");
+                                    // Console.WriteLine($"Status: {newOrder.OrderStatus}");
+
+                                    // foreach (var orderDetail in newOrder.OrderDetails)
+                                    // {
+                                    //     Console.WriteLine($"Tabaccos: {orderDetail.TabaccoId}, Quantity: {orderDetail.Quantity}");
+                                    // }
+                                    Console.ReadKey();
+                                    break;
+                                case 3:
+                                    Console.ReadKey();
+                                    break;
+
+                            }
+
                         }
-                        
-                    }}
+                    }
                     else
                     {
                         Console.WriteLine("\nInvalid Username or Password !");
                     }
-                    
+
                 }
-            }while (mainChoose != mainMenu.Length);
+            } while (mainChoose != mainMenu.Length);
         }
 
         private static short Menu(string title, string[] menuTabaccos)
         {
-            string logo = @"====================================================================================================
+            string logo = @"==========================================================================================
 
 
-████████  █████  ██████   █████   ██████  ██████  ██████      ███████ ████████  ██████  ██████  ███████ 
-   ██    ██   ██ ██   ██ ██   ██ ██      ██      ██    ██     ██         ██    ██    ██ ██   ██ ██      
-   ██    ███████ ██████  ███████ ██      ██      ██    ██     ███████    ██    ██    ██ ██████  █████   
-   ██    ██   ██ ██   ██ ██   ██ ██      ██      ██    ██          ██    ██    ██    ██ ██   ██ ██      
-   ██    ██   ██ ██████  ██   ██  ██████  ██████  ██████      ███████    ██     ██████  ██   ██ ███████  
+████████╗ ██████╗ ██████╗  █████╗  ██████╗ ██████╗  ██████╗ 
+╚══██╔══╝██╔═══██╗██╔══██╗██╔══██╗██╔════╝██╔═══██╗██╔═══██╗
+   ██║   ██║   ██║██████╔╝███████║██║     ██║   ██║██║   ██║
+   ██║   ██║   ██║██╔══██╗██╔══██║██║     ██║   ██║██║   ██║
+   ██║   ╚██████╔╝██████╔╝██║  ██║╚██████╗╚██████╔╝╚██████╔╝
+   ╚═╝    ╚═════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═════╝  ╚═════╝ 
+        ███████╗████████╗ ██████╗ ██████╗ ███████╗                  
+        ██╔════╝╚══██╔══╝██╔═══██╗██╔══██╗██╔════╝                  
+        ███████╗   ██║   ██║   ██║██████╔╝█████╗                    
+        ╚════██║   ██║   ██║   ██║██╔══██╗██╔══╝                    
+        ███████║   ██║   ╚██████╔╝██║  ██║███████╗                  
+        ╚══════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝  
                                         
                                        ";
             short choose = 0;
-            Console.WriteLine($"\n"+logo);
-            string line = "====================================================================================================";
+            Console.WriteLine($"\n" + logo);
+            string line = "==========================================================================================";
             Console.WriteLine(line);
             Console.WriteLine(" " + title);
             Console.WriteLine(line);
@@ -175,7 +251,7 @@ namespace ConsolePL
                 Console.Write("Your choice: ");
                 try
                 {
-                    choose = Int16.Parse(Console.ReadLine()??"");
+                    choose = Int16.Parse(Console.ReadLine() ?? "");
                 }
                 catch
                 {
@@ -185,6 +261,6 @@ namespace ConsolePL
             } while (choose <= 0 || choose > menuTabaccos.Length);
             return choose;
         }
-        
+
     }
 }

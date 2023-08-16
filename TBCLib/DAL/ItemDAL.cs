@@ -23,9 +23,7 @@ namespace DAL
             Tabacco tabacco = null;
             try
             {
-                query = @"select Tabacco_id, Tabacco_name, Tabacco_Price, amount, Tabacco_date, Tabacco_pack
-                        
-                        from Tabaccos where Tabacco_id=@TabaccoId;";
+                query = @"select * from Tabaccos where Tabacco_id=@TabaccoId;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@TabaccoId", tabaccoId);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -48,9 +46,10 @@ namespace DAL
             Tabacco tabacco = new Tabacco();
             tabacco.TabaccoId = reader.GetInt32("Tabacco_id");
             tabacco.TabaccoName = reader.GetString("Tabacco_name");
+            tabacco.Manufactory = reader.GetString("Manufactory");
             tabacco.TabaccoPrice = reader.GetDecimal("Tabacco_Price");
             tabacco.Amount = reader.GetDecimal("amount");
-            tabacco.Pack = reader.GetInt32("Tabacco_pack");
+            tabacco.TabaccoPack = reader.GetInt32("Tabacco_pack");
             tabacco.TabaccoDate = reader.GetDateTime("Tabacco_date");
             return tabacco;
         }
@@ -59,16 +58,19 @@ namespace DAL
             List<Tabacco> lst = null;
             try
             {
-                connection.Open();
+                if (connection.State != ConnectionState.Open)
+                {
+                    connection.Open();
+                }
                 MySqlCommand command = new MySqlCommand("", connection);
                 switch (tabaccoFilter)
                 {
                     case TabaccoFilter.GET_ALL:
-                        query = @"select Tabacco_id, Tabacco_name, Tabacco_Price, amount, Tabacco_date, Tabacco_pack '') from Tabaccos";
+                        query = @"select * from Tabaccos";
                         break;
                     case TabaccoFilter.FILTER_BY_Tabacco_NAME:
-                        query = @"select Tabacco_id, Tabacco_name, Tabacco_Price, amount, Tabacco_date,Tabacco_pack '') from Tabaccos
-                                where Tabacco_name like concat('%',@TabaccoName,'%');";
+                        query = @"select *  from Tabaccos
+                                where Tabacco_name like Concat('%',@TabaccoName,'%');";
                         command.Parameters.AddWithValue("@TabaccoName", tabacco.TabaccoName);
                         break;
                 }
@@ -81,7 +83,10 @@ namespace DAL
                 }
                 reader.Close();
             }
-            catch { }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
             finally
             {
                 connection.Close();

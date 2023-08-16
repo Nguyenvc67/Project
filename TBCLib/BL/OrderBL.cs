@@ -1,14 +1,61 @@
+using System;
+using System.Collections.Generic;
+using MySqlConnector;
 using Model;
-using DAL;
-namespace BL
+using OrderManagementApp.DAL;
+
+namespace OrderManagementApp.BLL
 {
-    public class OrderBL
+    public class OrderManager
     {
-        private OrderDAL odl = new OrderDAL();
-        public bool CreateOrder(Order order)
+        private readonly DataAccess dataAccess;
+
+        public OrderManager(DataAccess dataAccess)
         {
-            bool result = odl.CreateOrder(order);
-            return result;
+            this.dataAccess = dataAccess;
         }
+
+        public List<Customer> GetAllCustomers()
+        {
+            return dataAccess.GetAllCustomers();
+        }
+
+        public List<Order> GetAllOrders()
+        {
+            List<Order> orders = dataAccess.GetAllOrders();
+            
+
+            foreach (var order in orders)
+            {
+                order.Customer = GetCustomerById(order.CustomerId);
+
+            }
+
+            return orders;
+        }
+
+        public List<OrderDetail> GetAllOrderDetails()
+        {
+            return dataAccess.GetAllOrderDetails();
+        }
+
+        public Customer GetCustomerById(int customerId)
+        {
+            return dataAccess.GetCustomerById(customerId);
+        }
+
+        public Staff GetStaffById(int staffId)
+        {
+            return dataAccess.GetStaffById(staffId);
+        }
+        public List<Tabacco> GetAllTabaccos()
+        {
+            return dataAccess.GetAllTabaccos();
+        }
+        public void AddOrder(Order order)
+        {
+            dataAccess.AddOrder(order);
+        }
+        
     }
 }

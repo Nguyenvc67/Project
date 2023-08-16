@@ -11,10 +11,13 @@ namespace BL
         {
             return idal.GetTabaccoById(tabaccoId);
         }
+        
         public List<Tabacco> GetAll()
         {
             return idal.GetTabaccos(TabaccoFilter.GET_ALL, null);
         }
+
+        
         public List<Tabacco> GetByName(string tabaccoName)
         {
             return idal.GetTabaccos(TabaccoFilter.FILTER_BY_Tabacco_NAME, new Tabacco{TabaccoName=tabaccoName});

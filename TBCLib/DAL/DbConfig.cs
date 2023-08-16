@@ -8,7 +8,7 @@ namespace DAL
         private DbConfig() { }
         public static MySqlConnection GetDefaultConnection()
         {
-            return GetConnection("server=localhost;user id=root;password=nguyen6797;port=3306;database=OrderDB;IgnoreCommandTransaction=true;");
+            return GetConnection("server=localhost;user id=nguyen;password=vtcacademy;port=3306;database=OrderDB;IgnoreCommandTransaction=true;");
         }
 
         public static MySqlConnection GetConnection()

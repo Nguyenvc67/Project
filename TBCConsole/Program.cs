@@ -3,6 +3,7 @@ using Model;
 using OrderManagementApp.BLL;
 using OrderManagementApp.DAL;
 using Spectre.Console;
+using DAL;
 
 namespace ConsolePL
 {
@@ -10,11 +11,15 @@ namespace ConsolePL
     {
         static void Main(string[] args)
         {
+            string connectionString = "server=localhost;user id=root;password=nguyen6797;port=3306;database=OrderDB;IgnoreCommandTransaction=true;";
+                                                    DataAccess dataAccess = new DataAccess(connectionString);
+                                                    
+                                                    OrderManager orderManager = new OrderManager(dataAccess);
 
 
             short mainChoose = 0, imChoose;
-            string[] mainMenu = { "Search Tabacco", "Create Order", "Exit" };
-            string[] imMenu = { "Get By Tabacco Id", "Get All Tabaccos", "Search By Tabacco Name", "Exit" };
+            string[] mainMenu = { "Search Tobacco", "Create Order", "Canel Order" };
+            string[] imMenu = { "Get By Tobacco Id", "Get All Tobaccos", "Search By Tobacco Name", "Exit" };
             TabaccoBL ibl = new TabaccoBL();
             StaffBL sta = new StaffBL();
             string[] Login = { "login" };
@@ -28,18 +33,19 @@ namespace ConsolePL
                 {
                     string UserName;
                     Console.WriteLine(@"
-████████╗ ██████╗ ██████╗  █████╗  ██████╗ ██████╗  ██████╗ 
-╚══██╔══╝██╔═══██╗██╔══██╗██╔══██╗██╔════╝██╔═══██╗██╔═══██╗
-   ██║   ██║   ██║██████╔╝███████║██║     ██║   ██║██║   ██║
-   ██║   ██║   ██║██╔══██╗██╔══██║██║     ██║   ██║██║   ██║
-   ██║   ╚██████╔╝██████╔╝██║  ██║╚██████╗╚██████╔╝╚██████╔╝
-   ╚═╝    ╚═════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═════╝  ╚═════╝ 
-        ███████╗████████╗ ██████╗ ██████╗ ███████╗                  
-        ██╔════╝╚══██╔══╝██╔═══██╗██╔══██╗██╔════╝                  
-        ███████╗   ██║   ██║   ██║██████╔╝█████╗                    
-        ╚════██║   ██║   ██║   ██║██╔══██╗██╔══╝                    
-        ███████║   ██║   ╚██████╔╝██║  ██║███████╗                  
-        ╚══════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝
+             ████████╗ ██████╗ ██████╗  █████╗  ██████╗ ██████╗  ██████╗ 
+             ╚══██╔══╝██╔═══██╗██╔══██╗██╔══██╗██╔════╝██╔═══██╗██╔═══██╗
+                ██║   ██║   ██║██████╔╝███████║██║     ██║   ██║██║   ██║
+                ██║   ██║   ██║██╔══██╗██╔══██║██║     ██║   ██║██║   ██║
+                ██║   ╚██████╔╝██████╔╝██║  ██║╚██████╗╚██████╔╝╚██████╔╝
+                ╚═╝    ╚═════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═════╝  ╚═════╝ 
+                        ███████╗████████╗ ██████╗ ██████╗ ███████╗                  
+                        ██╔════╝╚══██╔══╝██╔═══██╗██╔══██╗██╔════╝                  
+                        ███████╗   ██║   ██║   ██║██████╔╝█████╗                    
+                        ╚════██║   ██║   ██║   ██║██╔══██╗██╔══╝                    
+                        ███████║   ██║   ╚██████╔╝██║  ██║███████╗                  
+                        ╚══════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝  
+                                                        
                     ");
                     Console.Write("User Name : ");
                     UserName = Console.ReadLine() ?? "";
@@ -59,17 +65,18 @@ namespace ConsolePL
                         while (true)
                         {
                             mainChoose = Menu("                         Order Management", mainMenu);
+                            Console.Clear();
                             switch (mainChoose)
                             {
                                 case 1:
                                     do
                                     {
 
-                                        imChoose = Menu("                       Tabacco Management", imMenu);
+                                        imChoose = Menu("                       Tobacco Management", imMenu);
                                         switch (imChoose)
                                         {
                                             case 1:
-                                                Console.Write("\nInput Tabacco Id: ");
+                                                Console.Write("\nInput Tobacco Id: ");
                                                 int tabaccoId;
                                                 if (Int32.TryParse(Console.ReadLine(), out tabaccoId))
                                                 {
@@ -87,7 +94,7 @@ namespace ConsolePL
                                                     }
                                                     else
                                                     {
-                                                        Console.WriteLine("There is no Tabacco with id " + tabaccoId);
+                                                        Console.WriteLine("There is no Tobacco with id " + tabaccoId);
                                                     }
                                                 }
                                                 else
@@ -100,12 +107,12 @@ namespace ConsolePL
                                             case 2:
 
                                                 lst = ibl.GetAll();
-                                                Console.WriteLine("\nTabacco Count: " + lst.Count());
+                                                Console.WriteLine("\nTobacco Count: " + lst.Count());
                                                 Console.ReadKey();
                                                 break;
                                             case 3:
                                                 lst = ibl.GetByName("I");
-                                                Console.WriteLine("\nTabacco Count By Name: " + lst.Count());
+                                                Console.WriteLine("\nTobacco Count By Name: " + lst.Count());
                                                 break;
 
                                         }
@@ -113,68 +120,147 @@ namespace ConsolePL
                                     break;
                                 case 2:
 
-                                    string connectionString = "server=localhost;user id=root;password=nguyen6797;port=3306;database=OrderDB;IgnoreCommandTransaction=true;"; // Thay bằng chuỗi kết nối thực tế của bạn
-                                    DataAccess dataAccess = new DataAccess(connectionString);
-                                    OrderManager orderManager = new OrderManager(dataAccess);
-                                    Console.WriteLine("---- Create New Order ----");
+                                                    
+                                                    Console.WriteLine("---- Create New Order ----");
 
-                                    List<Customer> customers = orderManager.GetAllCustomers();
-                                    Console.WriteLine("Customers:");
-                                    foreach (var customer in customers)
+                                                    List<Customer> customers = orderManager.GetAllCustomers();
+                                                    Console.WriteLine("Customers:");
+                                                    foreach (var customer in customers)
+                                                    {
+                                                        Console.WriteLine($"{customer.CustomerId}. {customer.CustomerName}");
+                                                    }
+                                                    Console.Write("Select Customer (ID): ");
+                                                    int selectedCustomerId = int.Parse(Console.ReadLine());
+
+                                                    Customer selectedCustomer = customers.FirstOrDefault(c => c.CustomerId == selectedCustomerId);
+                                                    if (selectedCustomer == null)
+                                                    {
+                                                        Console.WriteLine("Customer not found.");
+                                                    }
+                                                    else
+                                                    {
+                                                        
+                                                        List<Tabacco> tabaccos = orderManager.GetAllTabaccos();
+                                                        Console.WriteLine("Tobaccos:");
+                                                        foreach (var tabacco in tabaccos)
+                                                        {
+                                                            Console.WriteLine($"{tabacco.TabaccoId}. {tabacco.TabaccoName}");
+                                                        }
+
+                                                        List<OrderDetail> orderDetails = new List<OrderDetail>();
+
+                                                        bool addMoreProducts = true;
+
+                                                        while (addMoreProducts)
+                                                        {
+                                                            Console.Write("Select Tobacco (ID): ");
+                                                            int selectedTabaccoId = int.Parse(Console.ReadLine());
+
+                                                            Tabacco selectedTabacco = tabaccos.FirstOrDefault(t => t.TabaccoId == selectedTabaccoId);
+                                                            if (selectedTabacco == null)
+                                                            {
+                                                                Console.WriteLine("Tobacco not found.");
+                                                            }
+                                                            else
+                                                            {
+                                                                Console.Write("Quantity: ");
+                                                                int quantity = int.Parse(Console.ReadLine());
+
+                                                                orderDetails.Add(new OrderDetail
+                                                                {
+                                                                    TabaccoId = selectedTabaccoId,
+                                                                    Quantity = quantity
+                                                                });
+
+                                                                Console.Write("Do you want to add more products? (y/n): ");
+                                                                string userInput = Console.ReadLine().ToLower();
+                                                                addMoreProducts = userInput == "y" || userInput == "yes";
+                                                            }
+                                                        }
+                                                    decimal totalAmount = 0;
+
+                                                    foreach (var orderDetail in orderDetails)
+                                                    {
+                                                        Tabacco selectedTabacco = tabaccos.FirstOrDefault(t => t.TabaccoId == orderDetail.TabaccoId);
+                                                        if (selectedTabacco != null)
+                                                        {
+                                                            totalAmount += selectedTabacco.TabaccoPrice * orderDetail.Quantity;
+                                                        }
+                                                    }
+
+                                                    Order newOrder = new Order
+                                                    {
+                                                        CustomerId = selectedCustomerId,
+                                                        CustomerName = selectedCustomer.CustomerName,
+                                                        SellerId = 1,
+                                                        OrderDate = DateTime.Now,
+                                                        OrderStatus = "Processing",
+                                                        OrderDetails = orderDetails
+                                                    };
+
+                                                    orderManager.AddOrder(newOrder);
+
+                                                    Console.WriteLine("Order created successfully!");
+                                    
+                                                        Console.ReadKey();
+                                                        Console.Clear();
+                                                                            Console.WriteLine(@"
+             ████████╗ ██████╗ ██████╗  █████╗  ██████╗ ██████╗  ██████╗ 
+             ╚══██╔══╝██╔═══██╗██╔══██╗██╔══██╗██╔════╝██╔═══██╗██╔═══██╗
+                ██║   ██║   ██║██████╔╝███████║██║     ██║   ██║██║   ██║
+                ██║   ██║   ██║██╔══██╗██╔══██║██║     ██║   ██║██║   ██║
+                ██║   ╚██████╔╝██████╔╝██║  ██║╚██████╗╚██████╔╝╚██████╔╝
+                ╚═╝    ╚═════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═════╝  ╚═════╝ 
+                        ███████╗████████╗ ██████╗ ██████╗ ███████╗                  
+                        ██╔════╝╚══██╔══╝██╔═══██╗██╔══██╗██╔════╝                  
+                        ███████╗   ██║   ██║   ██║██████╔╝█████╗                    
+                        ╚════██║   ██║   ██║   ██║██╔══██╗██╔══╝                    
+                        ███████║   ██║   ╚██████╔╝██║  ██║███████╗                  
+                        ╚══════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝  
+                                                        
+                    ");
+                                                        Console.WriteLine("        Address: VTC Online Building, 18 D. Tam Trinh, Mai Dong, Hai Ba Trung, Ha Noi");
+                                                        Console.WriteLine("        Phone: 000001");
+                                    Console.WriteLine("\n\n\nSeller : Vu Cong Nguyen");
+                                
+                                    Customer selectedCustomerr = customers.FirstOrDefault(c => c.CustomerId == selectedCustomerId);
+
+                                    if (selectedCustomerr != null)
                                     {
-                                        Console.WriteLine($"{customer.CustomerId}. {customer.CustomerName}");
+                                        Console.WriteLine($"Customer: {selectedCustomerr.CustomerName}");
+                                        Console.WriteLine($"Address: {selectedCustomerr.CustomerAddress}");
+                                        Console.WriteLine($"Phone: {selectedCustomerr.CustomerPhone}");
                                     }
-                                    Console.Write("Select Customer (ID): ");
-                                    int selectedCustomerId = int.Parse(Console.ReadLine());
 
-                                    List<Tabacco> tabaccos = orderManager.GetAllTabaccos();
-                                    Console.WriteLine("Tabaccos:");
-                                    foreach (var tabacco in tabaccos)
-                                    {
-                                        Console.WriteLine($"{tabacco.TabaccoId}. {tabacco.TabaccoName}");
-                                    }
-                                    Console.Write("Select Tabacco (ID): ");
-                                    int selectedTabaccoId = int.Parse(Console.ReadLine());
 
-                                    Console.Write("Quantity: ");
-                                    int quantity = int.Parse(Console.ReadLine());
+                                    Console.WriteLine($"Seller ID: {newOrder.SellerId}");
+                                    Console.WriteLine($"Date: {newOrder.OrderDate}");
 
-                                    Order newOrder = new Order
-                                    {
-                                        CustomerId = selectedCustomerId,
-                                        SellerId = 1,
-                                        OrderDate = DateTime.Now,
-                                        OrderStatus = "Pending"
-                                    };
-
-                                    OrderDetail newOrderDetail = new OrderDetail
-                                    {
-                                        TabaccoId = selectedTabaccoId,
-                                        Quantity = quantity
-                                    };
-
-                                    newOrder.OrderDetails = new List<OrderDetail> { newOrderDetail };
-
-                                    orderManager.AddOrder(newOrder);
-
-                                    Console.WriteLine("Order created successfully!");
-                                    Console.ReadKey();
-                                    Console.Clear();
-                                    var table = new Table();
-                                    table.AddColumn("Order Id ");
-                                    table.AddColumn("Customer ID ");
-                                    table.AddColumn("Seller Id ");
-                                    table.AddColumn("Date ");
-                                    table.AddColumn("Status ");
-                                    table.AddColumn("Tabacco ");
-                                    table.AddColumn("Quantity ");
                                     foreach (var orderDetail in newOrder.OrderDetails)
                                     {
-                                        table.AddRow(newOrder.OrderId.ToString(), newOrder.CustomerId.ToString(), newOrder.SellerId.ToString(), newOrder.OrderDate.ToString(), newOrder.OrderStatus, orderDetail.TabaccoId.ToString(), orderDetail.Quantity.ToString());
+                                        Console.WriteLine($"Tobaccos: {orderDetail.TabaccoId}, Quantity: {orderDetail.Quantity}");
                                     }
+                                    // var table = new Table();
+                                    // // table.AddColumn("Order Id ");
+                                    // table.AddColumn("Customer ID ");
+                                    // table.AddColumn("Seller Id ");
+                                    // table.AddColumn("Date ");
+                                    
+                                    // table.AddColumn("Tabacco ");
+                                    // table.AddColumn("Quantity ");
+                                    // // table.AddColumn("Total Amount ");
+                                    // foreach (var orderDetail in newOrder.OrderDetails)
+                                    // {
+                                    //     table.AddRow(newOrder.CustomerId.ToString(), newOrder.SellerId.ToString(), newOrder.OrderDate.ToString(), orderDetail.TabaccoId.ToString(), orderDetail.Quantity.ToString());
+                                    // }
 
-                                    AnsiConsole.Render(table);
+                                    // AnsiConsole.Render(table);
+                                    
+                                    Console.WriteLine($"Total Amount: {totalAmount} VND");
 
+
+
+            
                                     // var detailsTable = new Table();
                                     // detailsTable.AddColumn("Tabacco: ");
                                     // detailsTable.AddColumn("Quantity: ");
@@ -197,12 +283,60 @@ namespace ConsolePL
                                     // {
                                     //     Console.WriteLine($"Tabaccos: {orderDetail.TabaccoId}, Quantity: {orderDetail.Quantity}");
                                     // }
-                                    Console.ReadKey();
+                                    Console.ReadKey();}
+                                   
                                     break;
                                 case 3:
-                                    Console.ReadKey();
-                                    break;
+                                Console.WriteLine("---- Cancel Order ----");
 
+                                List<Order> allOrders = orderManager.GetAllOrders();
+
+                                if (allOrders.Count == 0)
+                                {
+                                    Console.WriteLine("There are no orders to cancel.");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Orders:");
+                                    foreach (var order in allOrders)
+                                    {
+                                        Console.WriteLine($"{order.OrderId}. Customer: {order.CustomerName} Status: {order.OrderStatus}");
+                                    }
+
+                                    Console.Write("Select Order to Cancel (ID): ");
+                                    int selectedOrderId = int.Parse(Console.ReadLine());
+
+                                    Order selectedOrder = allOrders.FirstOrDefault(o => o.OrderId == selectedOrderId);
+                                    if (selectedOrder == null)
+                                    {
+                                        Console.WriteLine("Order not found.");
+                                    }
+                                    else
+                                    {
+                                        Console.Write($"Are you sure you want to cancel the order for customer {selectedOrder.CustomerName}? (y/n): ");
+                                        string userInput = Console.ReadLine().ToLower();
+                                        if (userInput == "y" || userInput == "yes")
+                                        {
+                                            bool success = orderManager.CancelOrder(selectedOrder);
+                                            if (success)
+                                            {
+                                                Console.WriteLine("Order cancelled successfully!");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("Failed to cancel the order.");
+                                            }
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Order cancellation aborted.");
+                                        }
+                                    }
+                                }
+
+                                Console.ReadKey();
+                                Console.Clear();
+                                break;
                             }
 
                         }
@@ -221,19 +355,19 @@ namespace ConsolePL
             string logo = @"==========================================================================================
 
 
-████████╗ ██████╗ ██████╗  █████╗  ██████╗ ██████╗  ██████╗ 
-╚══██╔══╝██╔═══██╗██╔══██╗██╔══██╗██╔════╝██╔═══██╗██╔═══██╗
-   ██║   ██║   ██║██████╔╝███████║██║     ██║   ██║██║   ██║
-   ██║   ██║   ██║██╔══██╗██╔══██║██║     ██║   ██║██║   ██║
-   ██║   ╚██████╔╝██████╔╝██║  ██║╚██████╗╚██████╔╝╚██████╔╝
-   ╚═╝    ╚═════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═════╝  ╚═════╝ 
-        ███████╗████████╗ ██████╗ ██████╗ ███████╗                  
-        ██╔════╝╚══██╔══╝██╔═══██╗██╔══██╗██╔════╝                  
-        ███████╗   ██║   ██║   ██║██████╔╝█████╗                    
-        ╚════██║   ██║   ██║   ██║██╔══██╗██╔══╝                    
-        ███████║   ██║   ╚██████╔╝██║  ██║███████╗                  
-        ╚══════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝  
-                                        
+             ████████╗ ██████╗ ██████╗  █████╗  ██████╗ ██████╗  ██████╗ 
+             ╚══██╔══╝██╔═══██╗██╔══██╗██╔══██╗██╔════╝██╔═══██╗██╔═══██╗
+                ██║   ██║   ██║██████╔╝███████║██║     ██║   ██║██║   ██║
+                ██║   ██║   ██║██╔══██╗██╔══██║██║     ██║   ██║██║   ██║
+                ██║   ╚██████╔╝██████╔╝██║  ██║╚██████╗╚██████╔╝╚██████╔╝
+                ╚═╝    ╚═════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═════╝  ╚═════╝ 
+                        ███████╗████████╗ ██████╗ ██████╗ ███████╗                  
+                        ██╔════╝╚══██╔══╝██╔═══██╗██╔══██╗██╔════╝                  
+                        ███████╗   ██║   ██║   ██║██████╔╝█████╗                    
+                        ╚════██║   ██║   ██║   ██║██╔══██╗██╔══╝                    
+                        ███████║   ██║   ╚██████╔╝██║  ██║███████╗                  
+                        ╚══════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝  
+                                                        
                                        ";
             short choose = 0;
             Console.WriteLine($"\n" + logo);

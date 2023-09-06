@@ -10,12 +10,12 @@ create table Customers(
     customer_address varchar(200),
     customer_phone varchar(50)
 );
-insert into Customers(customer_name, customer_address, customer_phone) values
-('Nguyen Thi X','Hai Duong', 3254234),
-('Nguyen Van N','Hanoi',1243214),
-('Nguyen Van B','Ho Chi Minh',23145432542),
-('Nguyen Van A','Hanoi',2341243235),
-('Nguyen Van s','Hanoi',23412432);
+insert into Customers(customer_name, customer_address, customer_phone) values	
+('Nguyen Thi X','Hai Duong', 0311111111),
+('Nguyen Van N','Hanoi', 0322222222),
+('Nguyen Van B','Ho Chi Minh', 0333333333),
+('Nguyen Van B','Hanoi', 0344444444),
+('Nguyen Van s','Hanoi', 0355555555);
 -- drop table customers;
 
 create table Staffs(
@@ -49,14 +49,21 @@ select Tabacco_name, Manufactory, Tabacco_Price, amount, Tabacco_pack, Tabacco_d
 create table Orders(
 	Order_id int auto_increment primary key,
 	Customer_id int,
+	Customer_name varchar(100),
     Seller_id int,
     Order_data datetime default now() not null,
     Order_status varchar(50) not null,
+    
     foreign key (Customer_id) references Customers(customer_id),
+    
     foreign key (Seller_id) references Staffs(Staff_id)
 );
-insert into Orders(order_status) values
-	(1), (1), (1);
+UPDATE Orders o
+JOIN Customers c ON o.Customer_id = c.customer_id
+SET o.Customer_id = c.customer_id
+WHERE o.Order_id > 0;
+insert into Orders(Customer_name, order_status) values
+	('Nguyen Thi X','Unpaid'), ('Nguyen Van N','Unpaid'), ('Nguyen Van B','Processing'), ('Nguyen Van B','Processing'),('Nguyen Van s','Paid');
 create table OrderDetails(
 	Order_id int not null,
     Tabacco_id int(50) not null,

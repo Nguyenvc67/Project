@@ -13,6 +13,36 @@ namespace OrderManagementApp.DAL
         {
             this.connectionString = connectionString;
         }
+    public string GetOrderStatus(int orderId)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "SELECT Order_status FROM Orders WHERE Order_id = @OrderId";
+                
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@OrderId", orderId);
+                    return command.ExecuteScalar()?.ToString();
+                }
+            }
+        }
+    public bool UpdateOrderStatusToCancelled(int orderId)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "UPDATE Orders SET Order_status = 'Cancelled' WHERE Order_id = @OrderId";
+                
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@OrderId", orderId);
+                    int rowsAffected = command.ExecuteNonQuery();
+                    return rowsAffected > 0;
+                }
+            }
+        }
+
 
         public List<Customer> GetAllCustomers()
         {
@@ -39,30 +69,42 @@ namespace OrderManagementApp.DAL
         }
 
         public List<Order> GetAllOrders()
+{
+    List<Order> orders = new List<Order>();
+
+    using (MySqlConnection connection = new MySqlConnection(connectionString))
+    {
+        connection.Open();
+        string query = "SELECT * FROM Orders";
+        using (MySqlCommand command = new MySqlCommand(query, connection))
         {
-            List<Order> orders = new List<Order>();
-            using MySqlConnection connection = new MySqlConnection(connectionString);
-            connection.Open();
-
-            string query = "SELECT order_id, Customer_id, Seller_id, Order_data, Order_status FROM Orders";
-            using MySqlCommand command = new MySqlCommand(query, connection);
-            using MySqlDataReader reader = command.ExecuteReader();
-
-            while (reader.Read())
+            using (MySqlDataReader reader = command.ExecuteReader())
             {
-                orders.Add(new Order
+                while (reader.Read())
                 {
-                    OrderId = reader.GetInt32("order_id"),
-                    CustomerId = reader.GetInt32("Customer_id"),
-                    SellerId = reader.GetInt32("Seller_id"),
-                    OrderDate = reader.GetDateTime("Order_data"),
-                    OrderStatus = reader.GetString("Order_status")
-                    
-                });
-            }
+                    Order order = new Order
+                    {
+                        OrderId = reader["Order_id"] != DBNull.Value ? Convert.ToInt32(reader["Order_id"]) : 0,
+                        CustomerId = reader["Customer_id"] != DBNull.Value ? Convert.ToInt32(reader["Customer_id"]) : 0,
+                        SellerId = reader["Seller_id"] != DBNull.Value ? Convert.ToInt32(reader["Seller_id"]) : 0,
+                        OrderDate = reader["Order_data"] != DBNull.Value ? Convert.ToDateTime(reader["Order_data"]) : DateTime.MinValue,
+                        OrderStatus = reader["Order_status"] != DBNull.Value ? reader["Order_status"].ToString() : "",
+                    };
 
-            return orders;
+                  
+                    if (reader["Customer_name"] != DBNull.Value)
+                    {
+                        order.CustomerName = reader["Customer_name"].ToString();
+                    }
+
+                    orders.Add(order);
+                }
+            }
         }
+    }
+
+    return orders;
+}
 
         public List<OrderDetail> GetAllOrderDetails()
         {
@@ -156,6 +198,18 @@ namespace OrderManagementApp.DAL
 
             return tabaccos;
         }
+        public void UpdateOrder(Order order)
+        {
+            using MySqlConnection connection = new MySqlConnection(connectionString);
+            connection.Open();
+
+            using MySqlCommand cmd = connection.CreateCommand();
+            cmd.CommandText = "UPDATE Orders SET OrderStatus = @OrderStatus WHERE OrderId = @OrderId";
+            cmd.Parameters.AddWithValue("@OrderStatus", order.OrderStatus);
+            cmd.Parameters.AddWithValue("@OrderId", order.OrderId);
+
+            cmd.ExecuteNonQuery();
+        }
         public void AddOrder(Order order)
         {
             using MySqlConnection connection = new MySqlConnection(connectionString);
@@ -167,9 +221,10 @@ namespace OrderManagementApp.DAL
             try
             {
 
-                string insertOrderQuery = "INSERT INTO Orders (Customer_id, Seller_id, Order_data, Order_status) VALUES (@CustomerId, @SellerId, @OrderDate, @OrderStatus)";
+                string insertOrderQuery = "INSERT INTO Orders (Customer_id, Customer_name, Seller_id, Order_data, Order_status) VALUES (@CustomerId, @CustomerName, @SellerId, @OrderDate, @OrderStatus)";
                 using var insertOrderCommand = new MySqlCommand(insertOrderQuery, connection, transaction);
                 insertOrderCommand.Parameters.AddWithValue("@CustomerId", order.CustomerId);
+                insertOrderCommand.Parameters.AddWithValue("@CustomerName", order.CustomerName);
                 insertOrderCommand.Parameters.AddWithValue("@SellerId", order.SellerId);
                 insertOrderCommand.Parameters.AddWithValue("@OrderDate", order.OrderDate);
                 insertOrderCommand.Parameters.AddWithValue("@OrderStatus", order.OrderStatus);

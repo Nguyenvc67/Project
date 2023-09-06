@@ -14,6 +14,24 @@ namespace OrderManagementApp.BLL
         {
             this.dataAccess = dataAccess;
         }
+    public bool CancelOrder(Order order)
+        {
+            string orderStatus = dataAccess.GetOrderStatus(order.OrderId);
+
+            if (orderStatus != null && (orderStatus == "Unpaid" || orderStatus == "Processing" || orderStatus == "Paid"))
+            {
+                return dataAccess.UpdateOrderStatusToCancelled(order.OrderId);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void UpdateOrder(Order order)
+        {
+            dataAccess.UpdateOrder(order);
+        }
 
         public List<Customer> GetAllCustomers()
         {
@@ -28,7 +46,6 @@ namespace OrderManagementApp.BLL
             foreach (var order in orders)
             {
                 order.Customer = GetCustomerById(order.CustomerId);
-
             }
 
             return orders;
